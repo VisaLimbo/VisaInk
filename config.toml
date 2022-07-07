@@ -15,10 +15,10 @@ googleAnalytics = "UA-123-45"
 disqusShortname = "ink-demo"
 
 [params]
-	subtitle = "Crisp, minimal personal [blog theme for Hugo](https://github.com/knadh/hugo-ink)"
+	subtitle = "[Visa Appointment Wait Times](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
-	avatar = "https://image.freepik.com/free-vector/young-man-head-with-beard-avatar-character_24877-36786.jpg"
+	avatar = ![](/images/limbologo_main.png){width=500px}
 
 	# Content types to disable Disqus on.
 	disableDisqusTypes = ["page"]
