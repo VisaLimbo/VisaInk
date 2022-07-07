@@ -15,7 +15,7 @@ googleAnalytics = "UA-123-45"
 disqusShortname = "ink-demo"
 
 [params]
-	subtitle = "[Visa Appointment Wait Times](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
+	subtitle = "Analysing lags in visa delay, data from  [blog theme for Hugo](https://github.com/knadh/hugo-ink)"
 
 	# Optional 64x64 avatar image.
 	avatar = ![](/images/limbologo_main.png){width=500px}
