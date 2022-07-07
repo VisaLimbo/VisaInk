@@ -18,7 +18,7 @@ disqusShortname = "ink-demo"
   subtitle = "[Visa Appointment Wait Times](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
-	avatar = "![](/images/limbologo_main.jpg)"
+	avatar = "![](static/images/limbologo_main.png)"
 
 	# Content types to disable Disqus on.
 	disableDisqusTypes = ["page"]
