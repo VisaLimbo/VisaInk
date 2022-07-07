@@ -18,7 +18,7 @@ disqusShortname = "ink-demo"
   subtitle = "[Visa Appointment Wait Times](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
-	avatar = "https://github.com/VisaLimbo/VisaInk/tree/main/resources/_gen/images/limbologo_main.jpg"
+	avatar = "http://vsemart.com/wp-content/uploads/2014/07/Flexible-clock.jpg"
 
 	# Content types to disable Disqus on.
 	disableDisqusTypes = ["page"]
