@@ -43,7 +43,6 @@ ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(Country,VisitorVisa)
 
 ## For all categories of visatype
 ```{r scpdt_cty, echo=FALSE, warning=FALSE}
-
 # Charts for all visa types combined
 # ----------------------------------------
 # reshape data
@@ -51,10 +50,7 @@ scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVi
                variable.name = "Visatype", value.name = "Waittime_days")
 
 # CI: remove or keep countries
-keep_cty <- c('ARM','JOR','PAN','KEN','BGD','GHA','TUR','NGA','BRB','GUY','ETH','JAM',
-              'MKD','COL','COD','ESP','KGZ','ISR','ARE','IRQ','GRC','URY','DOM','VEN',
-              'CHL','ECU','CRI','DJI','AUS','CAN','MNG','MEX','BEN','ARG','FIN','SEN',
-              'XXR','PAK','BFA','NLD','FRA','PER','IND','LBR','CZE','MLT','UGA','EGY')
+keep_cty <- c('ARM','JOR','PAN','KEN','BGD','GHA','TUR','NGA','BRB','GUY','ETH','JAM','MKD','COL','COD','ESP','KGZ','ISR','ARE','IRQ','GRC','URY','DOM','VEN','CHL','ECU','CRI','DJI','AUS','CAN','MNG','MEX','BEN','ARG','FIN','SEN','XXR','PAK','BFA','NLD','FRA','PER','IND','LBR','CZE','MLT','UGA','EGY')
 
 # CI: geom bar for all countries
 ggplot(scpct_res[scpct_res$Country %in% keep_cty],
