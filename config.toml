@@ -1,8 +1,9 @@
-baseURL = "/"
+baseURL = '/'
 languageCode = "en-us"
 title = "Ink"
 theme = "hugo-ink"
 paginate = 5
+HUGO_VERSION = '0.89.4'
 
 copyright = "© Copyright notice"
 
@@ -67,3 +68,6 @@ url = "/index.xml"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+
+     

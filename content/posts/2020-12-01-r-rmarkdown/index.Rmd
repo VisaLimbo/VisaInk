@@ -1,37 +1,65 @@
 ---
-title: "Hello R Markdown"
-author: "Frida Gomam"
-date: 2020-12-01T21:13:14-05:00
+title: "Visalimbo"
+author: "parthkhare"
+date: 2022-07-05T21:13:14-05:00
 categories: ["R"]
 tags: ["R Markdown", "plot", "regression"]
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
+library(data.table);library(readxl);library(ggplot2)
 ```
 
-# R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### For visitor visa
+```{r, echo=FALSE, warning=FALSE, message=F}
+# Scraped Data Stats
+# --------------
+scpdt_base <- read.csv('/Users/moonlight/Documents/Moonlight Projects/2022/Visa Limbo/Data/visascraped_base_mapped.csv')
+scpdt_base$X <- NULL
+scpdt_base <- data.table(scpdt_base)
 
-You can embed an R code chunk like this:
+# ------------------------
+# Charts: most delayed countries
+# ------------------------
+# Aggregate delay by countries
+scpdt_cty <- scpdt_base[,.(VisitorVisa = mean(VisitorVisa, na.rm=T),
+                        Student_ExchangeVisitorVisas=mean(Student_ExchangeVisitorVisas, na.rm=T),
+                        AllOtherNonimmigrantVisas=mean(AllOtherNonimmigrantVisas,na.rm=T)),
+                        by = .(Country, date)]
 
-```{r cars}
-summary(cars)
-fit <- lm(dist ~ speed, data = cars)
-fit
+
+# ----------------------------------------
+# Charts for all visa types separately
+# ----------------------------------------
+# Visitor Visa more than one year
+ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(x=reorder(Country,-VisitorVisa), y=VisitorVisa)) +
+  geom_bar(fill='red',stat='identity') + ggtitle("US Visa Waitime: Visitor Visa > 1 year") +  
+  theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ xlab('Country') +
+  ylab('Waitime by country (avg across Embassies)')
+
 ```
 
-# Including Plots
+## For all categories of visatype
+```{r scpdt_cty, echo=FALSE, warning=FALSE}
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
+# Charts for all visa types combined
+# ----------------------------------------
+# reshape data
+scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVisitorVisas","AllOtherNonimmigrantVisas"),
+               variable.name = "Visatype", value.name = "Waittime_days")
 
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+# CI: remove or keep countries
+keep_cty <- c('ARM','JOR','PAN','KEN','BGD','GHA','TUR','NGA','BRB','GUY','ETH','JAM',
+              'MKD','COL','COD','ESP','KGZ','ISR','ARE','IRQ','GRC','URY','DOM','VEN',
+              'CHL','ECU','CRI','DJI','AUS','CAN','MNG','MEX','BEN','ARG','FIN','SEN',
+              'XXR','PAK','BFA','NLD','FRA','PER','IND','LBR','CZE','MLT','UGA','EGY')
+
+# CI: geom bar for all countries
+ggplot(scpct_res[scpct_res$Country %in% keep_cty],
+       aes(x=reorder(Country,-Waittime_days),y=Waittime_days,fill=Visatype)) +
+  geom_bar(stat='identity') + ggtitle("US Visa Waitime") +  
+  theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ xlab('Country') +
+  ylab('Waitime in days by country (avg across Embassies)')
 ```
