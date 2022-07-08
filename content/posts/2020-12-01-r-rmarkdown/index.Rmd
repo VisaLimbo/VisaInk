@@ -8,7 +8,7 @@ tags: ["R Markdown", "plot", "regression"]
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
-library(data.table);library(readxl);library(ggplot2)
+library(data.table);library(readxl);library(ggplot2); library(countrycode)
 ```
 
 ### Visa wait times
@@ -17,13 +17,14 @@ Coivd lockdowns are more or less over. With almost 70% of global population [vac
 The following analysis based on wait time from the [US Department of State](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html) illustrates this further.
 
 
-### Lag in visiting visa exceeds more than 2 years!
+### Delays in visiting visa wait time extent upto 3 years!
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
 # --------------
 scpdt_base <- read.csv('/Users/moonlight/Documents/Moonlight Projects/2022/Visa Limbo/Data/visascraped_base_mapped.csv')
 scpdt_base$X <- NULL
 scpdt_base <- data.table(scpdt_base)
+scpdt_base$ctyname <- countrycode(scpdt_base$Country, origin = 'iso3c', destination = 'country.name')
 
 # ------------------------
 # Charts: most delayed countries
@@ -32,21 +33,21 @@ scpdt_base <- data.table(scpdt_base)
 scpdt_cty <- scpdt_base[,.(VisitorVisa = mean(VisitorVisa, na.rm=T),
                         Student_ExchangeVisitorVisas=mean(Student_ExchangeVisitorVisas, na.rm=T),
                         AllOtherNonimmigrantVisas=mean(AllOtherNonimmigrantVisas,na.rm=T)),
-                        by = .(Country, date)]
+                        by = .(Country,ctyname, date)]
 
 
 # ----------------------------------------
 # Charts for all visa types separately
 # ----------------------------------------
 # Visitor Visa more than one year
-ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(Country,VisitorVisa), x=VisitorVisa)) +
+ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(ctyname,VisitorVisa), x=VisitorVisa)) +
   geom_bar(fill='red',stat='identity') + ggtitle("US Visa Waitime: Visitor Visa > 1 year") +  
   theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ ylab('Country') +
-  xlab('Waitime by country in days (avg across Embassies)')
+  xlab('Waitime by country in days')
 
 ```
 
-## The delay is consistent across all visa categories
+### The lag is consistent across all visa categories
 
 ```{r scpdt_cty, echo=FALSE, warning=FALSE}
 # Charts for all visa types combined
