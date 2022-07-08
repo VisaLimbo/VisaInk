@@ -5,7 +5,7 @@ theme = "hugo-ink"
 paginate = 5
 HUGO_VERSION = '0.89.4'
 
-copyright = "© Copyright notice"
+#copyright = "© Copyright notice"
 
 pygmentsstyle = "vs"
 pygmentscodefences = true
@@ -15,7 +15,7 @@ googleAnalytics = "UA-123-45"
 disqusShortname = "ink-demo"
 
 [params]
-  subtitle = "[Visa Appointment Wait Times](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
+  subtitle = "[Delay in Visa Appointments](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
 	avatar = "http://vsemart.com/wp-content/uploads/2014/07/Flexible-clock.jpg"
@@ -57,9 +57,9 @@ icon = "github"
 url = "https://github.com/VisaLimbo"
 
 [[params.social]]
-name = "RSS"
-icon = "rss"
-url = "/index.xml"
+name = "Twitter"
+icon = "twitter"
+url = "https://twitter.com/toddjmoss?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
 
 [taxonomies]
    tag = "tags"
