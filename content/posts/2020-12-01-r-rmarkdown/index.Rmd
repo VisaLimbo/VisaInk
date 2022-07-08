@@ -12,12 +12,11 @@ library(data.table);library(readxl);library(ggplot2); library(countrycode)
 ```
 
 ### Visa wait times
-
 Coivd lockdowns are more or less over. With almost 70% of global population [vaccinated](%22https://www.nytimes.com/interactive/2021/world/covid-vaccinations-tracker.html%22), most countries have opened their borders. But can anyone really travel ? The waiting times to get any category of visa is unimaginable long. 
 The following analysis based on wait time from the [US Department of State](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html) illustrates this further.
 
 
-### Delays in visiting visa wait time extent upto 3 years!
+Delays in visiting visa wait time extent upto 3 years!
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
 # --------------
@@ -47,7 +46,7 @@ ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(ctyname,VisitorVisa)
 
 ```
 
-### The lag is consistent across all visa categories
+The lag is consistent across all visa categories
 ```{r scpdt_cty, echo=FALSE, warning=FALSE}
 # Charts for all visa types combined
 # ----------------------------------------
@@ -75,7 +74,7 @@ ggplot(scpct_sub,aes(x=reorder(ctyname, Waittime_days, FUN=sum),y=Waittime_days/
   theme(axis.text = element_text(family = "Courier", size = (6)),
         axis.text.x=element_text(size=10), legend.position="none")
 ```
-### Average lag by different visa types
+Average lag by different visa types
 ```{r scpdt_base, echo=FALSE, warning=FALSE}
 # Average delay across all categories of visa: by embassies
 # ----------------------------------------
