@@ -48,21 +48,52 @@ ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(ctyname,VisitorVisa)
 ```
 
 ### The lag is consistent across all visa categories
-
 ```{r scpdt_cty, echo=FALSE, warning=FALSE}
 # Charts for all visa types combined
 # ----------------------------------------
 # reshape data
-scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVisitorVisas","AllOtherNonimmigrantVisas"),
-               variable.name = "Visatype", value.name = "Waittime_days")
+scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVisitorVisas",
+                                               "AllOtherNonimmigrantVisas"),
+                  variable.name = "Visatype", value.name = "Waittime_days")
+scpct_res <- scpct_res[!is.na(scpct_res$Waittime_days),]
 
-# CI: remove or keep countries
-keep_cty <- c('ARM','JOR','PAN','KEN','BGD','GHA','TUR','NGA','BRB','GUY','ETH','JAM','MKD','COL','COD','ESP','KGZ','ISR','ARE','IRQ','GRC','URY','DOM','VEN','CHL','ECU','CRI','DJI','AUS','CAN','MNG','MEX','BEN','ARG','FIN','SEN','XXR','PAK','BFA','NLD','FRA','PER','IND','LBR','CZE','MLT','UGA','EGY')
+# Subset top countries manually
+rem_cty <- c('Papua New Guinea','Micronesia (Federated States of)','Timor-Leste','Poland',
+             'Burundi','Hong Kong SAR China','Brunei','Bosnia & Herzegovina','Cambodia',
+             'Latvia','Angola','Eritrea','Fiji','Chad','Suriname','Curaçao','Turkmenistan',
+             'Oman','Mali','Trinidad & Tobago','Senegal','Eswatini','Equatorial Guinea',
+             'Gabon','Togo','Madagascar','Benin','Guatemala','Cape Verde','Sierra Leone',
+             'Mauritania','Kuwait')
+scpct_sub <- scpct_res[!scpct_res$ctyname %in% rem_cty,]
+
 
 # CI: geom bar for all countries
-ggplot(scpct_res[scpct_res$Country %in% keep_cty],
-       aes(x=reorder(Country,-Waittime_days),y=Waittime_days,fill=Visatype)) +
-  geom_bar(stat='identity') + ggtitle("US Visa Waitime") +  
-  theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ xlab('Country') +
-  ylab('Waitime in days by country (avg across Embassies)')
+ggplot(scpct_sub,aes(x=reorder(ctyname, Waittime_days, FUN=sum),y=Waittime_days/7.019)) + 
+  geom_bar(stat='identity', aes(fill = Visatype)) + coord_flip() + theme_minimal() +   
+  ggtitle("US Visa Waitime") +  xlab('Country') + ylab('Waitime (weeks)') + 
+  facet_grid(cols = vars(Visatype)) + 
+  theme(axis.text = element_text(family = "Courier", size = (6)),
+        axis.text.x=element_text(size=10), legend.position="none")
+```
+### Average lag by different visa types
+```{r scpdt_base, echo=FALSE, warning=FALSE}
+# Average delay across all categories of visa: by embassies
+# ----------------------------------------
+scrpie <- scpdt_base[,.(Visitor = mean(VisitorVisa, na.rm=T),
+                           Student_Exchange_Visitor=mean(Student_ExchangeVisitorVisas, na.rm=T),
+                           Other_Nonimmigrant=mean(AllOtherNonimmigrantVisas,na.rm=T))]
+
+scrpiedt <-  melt(scrpie, measure.vars = c( "Visitor","Student_Exchange_Visitor",
+                                            "Other_Nonimmigrant"),
+                  variable.name = "Visatype", value.name = "Waittime_days")
+
+scrpiedt$prop <-  scrpiedt$Waittime_days/sum(scrpiedt$Waittime_days)
+scrpiedt$prop <- scrpiedt$prop*100
+scrpiedt$ypos <- cumsum(scrpiedt$prop)- 0.5*scrpiedt$prop 
+
+# Basic piechart
+ggplot(scrpiedt, aes(x="", y=prop, fill=Visatype)) +
+  geom_bar(stat="identity", width=1, color="white") +  xlab('') + 
+  coord_polar("y", start=0) + theme_void() +
+  geom_text(aes(y=prop+3, label = paste0(round(prop,0),'%')), color = "white", size=3)
 ```
