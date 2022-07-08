@@ -11,8 +11,13 @@ knitr::opts_chunk$set(collapse = TRUE)
 library(data.table);library(readxl);library(ggplot2)
 ```
 
+### Visa wait times
 
-### For visitor visa
+Coivd lockdowns are more or less over. With almost 70% of global population [vaccinated](%22https://www.nytimes.com/interactive/2021/world/covid-vaccinations-tracker.html%22), most countries have opened their borders. But can anyone really travel ? The waiting times to get any category of visa is unimaginable long. 
+The following analysis based on wait time from the [US Department of State](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html) illustrates this further.
+
+
+### Lag in visiting visa exceeds more than 2 years!
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
 # --------------
@@ -36,12 +41,13 @@ scpdt_cty <- scpdt_base[,.(VisitorVisa = mean(VisitorVisa, na.rm=T),
 # Visitor Visa more than one year
 ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(Country,VisitorVisa), x=VisitorVisa)) +
   geom_bar(fill='red',stat='identity') + ggtitle("US Visa Waitime: Visitor Visa > 1 year") +  
-  theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ xlab('Country') +
-  ylab('Waitime by country (avg across Embassies)')
+  theme_minimal() + theme(axis.text.x=element_text(angle=90,hjust=1))+ ylab('Country') +
+  xlab('Waitime by country in days (avg across Embassies)')
 
 ```
 
-## For all categories of visatype
+## The delay is consistent across all visa categories
+
 ```{r scpdt_cty, echo=FALSE, warning=FALSE}
 # Charts for all visa types combined
 # ----------------------------------------
