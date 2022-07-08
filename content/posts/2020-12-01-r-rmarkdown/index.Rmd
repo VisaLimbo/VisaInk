@@ -42,7 +42,7 @@ scpdt_cty <- scpdt_base[,.(VisitorVisa = mean(VisitorVisa, na.rm=T),
 ggplot(scpdt_cty[scpdt_cty$VisitorVisa>365,], aes(y=reorder(ctyname,VisitorVisa), 
                                                   x=VisitorVisa/7.019)) +
   geom_bar(fill='red',stat='identity') + ggtitle("US Visa Waitime: Visitor Visa > 1 year") +  
-  theme_minimal() + ylab('Country') + xlab('Waitime (in weeks)')
+  theme_minimal() + ylab('Country') + xlab('Waitime (weeks)')
 
 ```
 
