@@ -15,7 +15,7 @@ googleAnalytics = "UA-123-45"
 disqusShortname = "ink-demo"
 
 [params]
-  subtitle = "[Delay in Visa Appointments](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
+  subtitle = "[Why is the congress taking so long ??](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
 	avatar = "http://vsemart.com/wp-content/uploads/2014/07/Flexible-clock.jpg"
