@@ -73,27 +73,44 @@ ggplot(scpct_sub,aes(x=reorder(ctyname, Waittime_days, FUN=sum),y=Waittime_days/
   ggtitle("US Visa Waitime") +  xlab('Country') + ylab('Waitime (weeks)') + 
   facet_grid(cols = vars(Visatype)) + 
   theme(axis.text = element_text(family = "Courier", size = (6)),
-        axis.text.x=element_text(size=10), legend.position="none")
+        axis.text.x=element_text(size=rel(0.7)), legend.position="none")
 ```
-Average lag by different visa types
-```{r scpdt_base, echo=FALSE, warning=FALSE}
-# Average delay across all categories of visa: by embassies
-# ----------------------------------------
-scrpie <- scpdt_base[,.(Visitor = mean(VisitorVisa, na.rm=T),
-                           Student_Exchange_Visitor=mean(Student_ExchangeVisitorVisas, na.rm=T),
-                           Other_Nonimmigrant=mean(AllOtherNonimmigrantVisas,na.rm=T))]
 
-scrpiedt <-  melt(scrpie, measure.vars = c( "Visitor","Student_Exchange_Visitor",
-                                            "Other_Nonimmigrant"),
-                  variable.name = "Visatype", value.name = "Waittime_days")
 
-scrpiedt$prop <-  scrpiedt$Waittime_days/sum(scrpiedt$Waittime_days)
-scrpiedt$prop <- scrpiedt$prop*100
-scrpiedt$ypos <- cumsum(scrpiedt$prop)- 0.5*scrpiedt$prop 
+Questions?
+Contact: visalimbo@gmail.com
 
-# Basic piechart
-ggplot(scrpiedt, aes(x="", y=prop, fill=Visatype)) +
-  geom_bar(stat="identity", width=1, color="white") +  xlab('') + 
-  coord_polar("y", start=0) + theme_void() +
-  geom_text(aes(y=prop+3, label = paste0(round(prop,0),'%')), color = "white", size=3)
-```
+
+
+
+
+
+
+
+
+
+
+
+<!-- Average lag by different visa types -->
+
+<!-- ```{r scpdt_base, echo=FALSE, warning=FALSE} -->
+<!-- # Average delay across all categories of visa: by embassies -->
+<!-- # ---------------------------------------- -->
+<!-- scrpie <- scpdt_base[,.(Visitor = mean(VisitorVisa, na.rm=T), -->
+<!--                            Student_Exchange_Visitor=mean(Student_ExchangeVisitorVisas, na.rm=T), -->
+<!--                            Other_Nonimmigrant=mean(AllOtherNonimmigrantVisas,na.rm=T))] -->
+
+<!-- scrpiedt <-  melt(scrpie, measure.vars = c( "Visitor","Student_Exchange_Visitor", -->
+<!--                                             "Other_Nonimmigrant"), -->
+<!--                   variable.name = "Visatype", value.name = "Waittime_days") -->
+
+<!-- scrpiedt$prop <-  scrpiedt$Waittime_days/sum(scrpiedt$Waittime_days) -->
+<!-- scrpiedt$prop <- scrpiedt$prop*100 -->
+<!-- scrpiedt$ypos <- cumsum(scrpiedt$prop)- 0.5*scrpiedt$prop  -->
+
+<!-- # Basic piechart -->
+<!-- ggplot(scrpiedt, aes(x="", y=prop, fill=Visatype)) + -->
+<!--   geom_bar(stat="identity", width=1, color="white") +  xlab('') +  -->
+<!--   coord_polar("y", start=0) + theme_void() + -->
+<!--   geom_text(aes(y=prop+3, label = paste0(round(prop,0),'%')), color = "white", size=3) -->
+<!-- ``` -->
