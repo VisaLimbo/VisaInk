@@ -2,8 +2,8 @@
 title: "VisaLimbo"
 author: "parthkhare"
 date: 2022-07-05T21:13:14-05:00
-categories: ["R"]
-tags: ["Immigration", "Visa", "Embassy"]
+# categories: ["R"]
+# tags: ["Immigration", "Visa", "Embassy"]
 ---
 
 ```{r setup, include=FALSE}
@@ -16,15 +16,17 @@ Coivd lockdowns are more or less over. With almost 70% of global population [vac
 The following analysis based on wait time from the [US Department of State](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html) illustrates this further.
 
 
-The following post analyses visa wait times for 237 embassies across 172 countries. There are three categories, Visitor Visa, Student Exchange/Visitor visa and All Other Non-immigrant visa. 
+The following post analyses visa wait times for 237 embassies across 172 countries. There results are shown for three categories, Visitor Visa, Student/Exchange Visitor Visas and All Other Non-immigrant visa. 
 
-*Based on the month July the average delay for
-  + Visitor Visas: 237 days 
-  + Student Exchange: 46 days and, 
-  + All Other Non-immigrant: 68 days
+<!-- * the average delay for -->
+<!--   + Visitor Visas: 237 days  -->
+<!--   + Student Exchange: 46 days and,  -->
+<!--   + All Other Non-immigrant: 68 days -->
 
 
-Following chart analyses lags for visitor's visa, where wait time extend upto 3 years!
+
+Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), delay for Visitor visas is the highest, based on July, 2022 average delay is around 237 days. Following embassies currently have visitor's visa wait time for over 1 year
+
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
 # --------------
@@ -33,56 +35,82 @@ scpdt_base$X <- NULL
 scpdt_base <- data.table(scpdt_base)
 scpdt_base$ctyname <- countrycode(scpdt_base$Country, origin = 'iso3c', destination = 'country.name')
 
-# ------------------------
-# Charts: most delayed countries
-# ------------------------
-# Aggregate delay by countries
-scpdt_cty <- scpdt_base[,.(VisitorVisa = mean(VisitorVisa, na.rm=T),
-                        Student_ExchangeVisitorVisas=mean(Student_ExchangeVisitorVisas, na.rm=T),
-                        AllOtherNonimmigrantVisas=mean(AllOtherNonimmigrantVisas,na.rm=T)),
-                        by = .(Country,ctyname, date)]
-
-
 # ----------------------------------------
 # Charts for all visa types separately
 # ----------------------------------------
 # Visitor Visa more than one year
 ggplot(scpdt_base[scpdt_base$VisitorVisa>365,], aes(y=reorder(Embassy,VisitorVisa), 
                                                   x=VisitorVisa)) +
-  geom_bar(fill='red',stat='identity') + ggtitle("US Visa Waitime: Visitor Visa > 1 year") +  
+  geom_bar(fill='red',stat='identity') + ggtitle("Visitor Visa > 1 year") +  
   theme_minimal() + ylab('Emabssy') + xlab('Waitime (days)') +
   theme(axis.text=element_text(size=rel(0.7)))
 
 ```
 
-The lag is consistent across all visa categories
-```{r scpdt_cty, echo=FALSE, warning=FALSE}
-# Charts for all visa types combined
+Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), average delay for Student/Exchange Visitor Visas is 46 days, following are the embassies with maximum lags
+```{r scpdt_base, echo=FALSE, warning=FALSE, message=F}
+
+# Charts for all visa types separately
 # ----------------------------------------
-# reshape data
-scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVisitorVisas",
-                                               "AllOtherNonimmigrantVisas"),
-                  variable.name = "Visatype", value.name = "Waittime_days")
-scpct_res <- scpct_res[!is.na(scpct_res$Waittime_days),]
-
-# Subset top countries manually
-rem_cty <- c('Papua New Guinea','Micronesia (Federated States of)','Timor-Leste','Poland',
-             'Burundi','Hong Kong SAR China','Brunei','Bosnia & Herzegovina','Cambodia',
-             'Latvia','Angola','Eritrea','Fiji','Chad','Suriname','Curaçao','Turkmenistan',
-             'Oman','Mali','Trinidad & Tobago','Senegal','Eswatini','Equatorial Guinea',
-             'Gabon','Togo','Madagascar','Benin','Guatemala','Cape Verde','Sierra Leone',
-             'Mauritania','Kuwait')
-scpct_sub <- scpct_res[!scpct_res$ctyname %in% rem_cty,]
-
-
-# CI: geom bar for all countries
-ggplot(scpct_sub,aes(x=reorder(ctyname, Waittime_days, FUN=sum),y=Waittime_days/7.019)) + 
-  geom_bar(stat='identity', aes(fill = Visatype)) + coord_flip() + theme_minimal() +   
-  ggtitle("US Visa Waitime") +  xlab('Country') + ylab('Waitime (weeks)') + 
-  facet_grid(cols = vars(Visatype)) + 
-  theme(axis.text = element_text(family = "Courier", size = (6)),
-        axis.text.x=element_text(size=rel(0.7)), legend.position="none")
+# Visitor Visa more than one year
+ggplot(scpdt_base[scpdt_base$Student_ExchangeVisitorVisas>60,], aes(y=reorder(Embassy,Student_ExchangeVisitorVisas), 
+                                                  x=Student_ExchangeVisitorVisas)) +
+  geom_bar(fill='darkgreen',stat='identity') + ggtitle("Student/Exchange Visitor Visas") +  
+  theme_minimal() + ylab('Emabssy') + xlab('Waitime (days)') +
+  theme(axis.text=element_text(size=rel(0.7)))
 ```
+
+
+
+Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), average delay for All Other Non-immigrant Visas is 68 days, following are countries with longest delays
+```{r, echo=FALSE, warning=FALSE, message=F}
+# Scraped Data Stats
+# --------------
+
+
+# ----------------------------------------
+# Charts for all visa types separately
+# ----------------------------------------
+# Visitor Visa more than one year
+ggplot(scpdt_base[scpdt_base$AllOtherNonimmigrantVisas>100,], aes(y=reorder(Embassy,AllOtherNonimmigrantVisas), 
+                                                  x=AllOtherNonimmigrantVisas)) +
+  geom_bar(fill='darkblue',stat='identity') + ggtitle("All Other Nonimmigrant Visas") +  
+  theme_minimal() + ylab('Emabssy') + xlab('Waitime (days)') +
+  theme(axis.text=element_text(size=rel(0.7)))
+```
+
+
+
+
+
+<!-- The lag is consistent across all visa categories -->
+<!-- ```{r scpdt_cty, echo=FALSE, warning=FALSE} -->
+<!-- # Charts for all visa types combined -->
+<!-- # ---------------------------------------- -->
+<!-- # reshape data -->
+<!-- scpct_res <- melt(scpdt_cty, measure.vars = c( "VisitorVisa","Student_ExchangeVisitorVisas", -->
+<!--                                                "AllOtherNonimmigrantVisas"), -->
+<!--                   variable.name = "Visatype", value.name = "Waittime_days") -->
+<!-- scpct_res <- scpct_res[!is.na(scpct_res$Waittime_days),] -->
+
+<!-- # Subset top countries manually -->
+<!-- rem_cty <- c('Papua New Guinea','Micronesia (Federated States of)','Timor-Leste','Poland', -->
+<!--              'Burundi','Hong Kong SAR China','Brunei','Bosnia & Herzegovina','Cambodia', -->
+<!--              'Latvia','Angola','Eritrea','Fiji','Chad','Suriname','Curaçao','Turkmenistan', -->
+<!--              'Oman','Mali','Trinidad & Tobago','Senegal','Eswatini','Equatorial Guinea', -->
+<!--              'Gabon','Togo','Madagascar','Benin','Guatemala','Cape Verde','Sierra Leone', -->
+<!--              'Mauritania','Kuwait') -->
+<!-- scpct_sub <- scpct_res[!scpct_res$ctyname %in% rem_cty,] -->
+
+
+<!-- # CI: geom bar for all countries -->
+<!-- ggplot(scpct_sub,aes(x=reorder(ctyname, Waittime_days, FUN=sum),y=Waittime_days/7.019)) +  -->
+<!--   geom_bar(stat='identity', aes(fill = Visatype)) + coord_flip() + theme_minimal() +    -->
+<!--   ggtitle("US Visa Waitime") +  xlab('Country') + ylab('Waitime (weeks)') +  -->
+<!--   facet_grid(cols = vars(Visatype)) +  -->
+<!--   theme(axis.text = element_text(family = "Courier", size = (6)), -->
+<!--         axis.text.x=element_text(size=rel(0.7)), legend.position="none") -->
+<!-- ``` -->
 
 
 Questions?
