@@ -18,7 +18,8 @@ disqusShortname = "ink-demo"
   subtitle = "[How long are waiting times for US visa appointments?](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
 
 	# Optional 64x64 avatar image.
-	avatar = "http://vsemart.com/wp-content/uploads/2014/07/Flexible-clock.jpg"
+	avatar =  "https://i.ibb.co/3rgTynP/Dali-limbo.png"
+	# http://vsemart.com/wp-content/uploads/2014/07/Flexible-clock.jpg
 
 	# Content types to disable Disqus on.
 	disableDisqusTypes = ["page"]
