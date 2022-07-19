@@ -12,7 +12,7 @@ pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 
 googleAnalytics = "UA-123-45"
-disqusShortname = "ink-demo"
+#disqusShortname = "ink-demo"
 
 [params]
   subtitle = "[How long are waiting times for US visa appointments?](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html)"
