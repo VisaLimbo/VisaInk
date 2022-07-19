@@ -12,20 +12,13 @@ library(data.table);library(readxl);library(ggplot2); library(countrycode)
 ```
 
 ### Visa wait times
-Coivd lockdowns are more or less over. With almost 70% of global population [vaccinated](%22https://www.nytimes.com/interactive/2021/world/covid-vaccinations-tracker.html%22), most countries have opened their borders. But can anyone really travel ? The waiting times to get any category of visa is unimaginable long. 
-The following analysis based on wait time from the [US Department of State](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html) illustrates this further.
+Coivd lockdowns are more or less over. With almost 70% of global population [vaccinated](%22https://www.nytimes.com/interactive/2021/world/covid-vaccinations-tracker.html%22), most countries have opened their borders. But can anyone really travel ? The waiting times to get any category of visa is unimaginably long. 
 
 
-The following post analyses visa wait times for 237 embassies across 172 countries. There results are shown for three categories, Visitor Visa, Student/Exchange Visitor Visas and All Other Non-immigrant visa. 
-
-<!-- * the average delay for -->
-<!--   + Visitor Visas: 237 days  -->
-<!--   + Student Exchange: 46 days and,  -->
-<!--   + All Other Non-immigrant: 68 days -->
+Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), the following post analyses visa wait times for 237 embassies across 172 countries. There results are shown for three categories, Visitor Visa, Student/Exchange Visitor Visas and All Other Non-immigrant visa. 
 
 
-
-Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), delay for Visitor visas is the highest, based on July, 2022 average delay is around 237 days. Following embassies currently have visitor's visa wait time for over 1 year
+Delay for Visitor visas is the highest, based on July, 2022 average delay is around 237 days. Following embassies currently have visitor's visa wait time for over 1 year
 
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
@@ -47,7 +40,7 @@ ggplot(scpdt_base[scpdt_base$VisitorVisa>365,], aes(y=reorder(Embassy,VisitorVis
 
 ```
 
-Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), average delay for Student/Exchange Visitor Visas is 46 days, following are the embassies with maximum lags
+Average delay for Student/Exchange Visitor Visas is 46 days, following are the embassies with maximum lags
 ```{r scpdt_base, echo=FALSE, warning=FALSE, message=F}
 
 # Charts for all visa types separately
@@ -62,7 +55,7 @@ ggplot(scpdt_base[scpdt_base$Student_ExchangeVisitorVisas>60,], aes(y=reorder(Em
 
 
 
-Based on State Department [data](https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/wait-times.html), average delay for All Other Non-immigrant Visas is 68 days, following are countries with longest delays
+Average delay for All Other Non-immigrant Visas is 68 days, following are countries with longest delays
 ```{r, echo=FALSE, warning=FALSE, message=F}
 # Scraped Data Stats
 # --------------
