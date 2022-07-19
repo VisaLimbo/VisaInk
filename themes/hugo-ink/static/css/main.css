@@ -218,13 +218,13 @@ ul {
 }
 
 .container {
-    max-width: 800px;
-    margin-top: 30px;
+    max-width: 1000px;
+    margin-top: 50px;
 }
 
 .header {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 .header .avatar {
@@ -232,10 +232,10 @@ ul {
     margin: 0 20px 0 0;
 }
 .header .avatar img {
-    width: 64px;
-    height: 64px;
+    width: 100px;
+    height: 85px;
     overflow: hidden;
-    border-radius: 100%;
+    border-radius: 5%;
 }
 .header .site-title {
     margin: 0;
@@ -258,7 +258,7 @@ ul {
 
 .header nav {
     border-top: 1px solid #eee;
-    padding-top: 15px;
+    padding-top: 50px;
 }
 
 .header nav ul,
